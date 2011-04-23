@@ -1,23 +1,21 @@
 package control
 {
-	import View.BasicView;
-	import View.LobbyView;
-	import View.LoginView;
-	import View.MainView;
-	
-	import com.smartfoxserver.v2.SmartFox;
-	import com.smartfoxserver.v2.requests.JoinRoomRequest;
-	import com.smartfoxserver.v2.requests.LoginRequest;
+	import Views.LobbyView;
+	import Views.LoginView;
+	import Views.abstracts.BasicView;
+	import Views.abstracts.MainGameView;
+	import Views.abstracts.MainView;
 	
 	import flash.display.MovieClip;
 	
 	import model.MainModel;
+	
+	import playerio.Connection;
 
 	public class Controller
 	{
 		private var mainModel:MainModel = MainModel.getInstance();
-		private var sfs:SmartFox = MainModel.getSmartfoxInstance();
-		
+
 		private static var controller:Controller;
 		
 		//SINGLETON
@@ -37,7 +35,6 @@ package control
 			if(mainModel.getCurrentView() != null)
 				mainModel.getStage().removeChild(mainModel.getCurrentView());
 		}
-		
 		//Main view
 		public function addMainView():void
 		{
@@ -56,6 +53,7 @@ package control
 			
 			var loginView:BasicView = new LoginView();
 			mainModel.getStage().addChild(loginView);
+			mainModel.setCurrentView(loginView);
 		}
 		
 		//Lobby view
@@ -65,21 +63,29 @@ package control
 		
 			var lobbyView:BasicView = new LobbyView();
 			mainModel.getStage().addChild(lobbyView);
+			mainModel.setCurrentView(lobbyView);
 		}
+		
+		//Main game view
+		public function addMainGameView():void
+		{
+			removeCurrentView();
 			
-		//SmartfoxAction
-		public function sfsLoadConfig():void
-		{
-			sfs.loadConfig();
+			var mainGameView:BasicView = new MainGameView();
+			mainModel.getStage().addChild(mainGameView);
+			mainModel.setCurrentView(mainGameView);
 		}
-		public function sfsLogin(username:String, password:String = "", room:String = ""):void
+
+		//New state
+		public function setNewState(state:String):void
 		{
-			mainModel.setUsername(username);
-			sfs.send(new LoginRequest(username, password, room));
+			mainModel.setCurrentState(state);
 		}
-		public function sfsJoinRoom(id:*, pass:String = null):void
+		//PlayerIO Action
+		public function setConnection(connection:Connection):void
 		{
-			sfs.send(new JoinRoomRequest(id,pass));
+			mainModel.setConnection(connection);
 		}
+		
 	}
 }

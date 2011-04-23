@@ -25,7 +25,6 @@
         </excludedEntries>
       </libraryPathEntry>
       <libraryPathEntry kind="3" linkType="1" path="src/assets/board.swc" useDefaultLinkType="false"/>
-      <libraryPathEntry kind="3" linkType="1" path="D:/Serveurs/SFS2X-RC1a/Client/Flash/API/SFS2X_API_AS3.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>

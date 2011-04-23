@@ -1,8 +1,6 @@
 package model
 {
-	import View.BasicView;
-	
-	import com.smartfoxserver.v2.SmartFox;
+	import Views.abstracts.BasicView;
 	
 	import event.StateUpdateEvent;
 	
@@ -12,17 +10,22 @@ package model
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
 	
+	import playerio.Client;
+	import playerio.Connection;
+	import playerio.PlayerIO;
+	
 	public class MainModel extends EventDispatcher
 	{
 		//Liste des events
 		public static const EVENT_STAGE_UPDATE:String = "StageUpdate";
-		
+		public static const EVENT_CONNECTION_UPDATE:String = "ConnexionUpdate";
 		//Liste des rooms static
-		public static const ROOM_LOBBY:String = "The Lobby";
+		public static const ROOM_LOBBY:String = "Lobby";
 		
 		//Liste des states
-		public static const STATE_LOGIN:String = "Login";
-		public static const STATE_LOBBY:String = "Lobby";
+		public static const STATE_LOGIN:String = "LoginView";
+		public static const STATE_LOBBY:String = "LobbyView";
+		public static const STATE_MAIN_GAME:String = "MainGameView";
 		
 		//Model singleton
 		private static var mainModel:MainModel;
@@ -34,14 +37,27 @@ package model
 			return mainModel;
 		}
 		
-		//Smartfox
-		private static var sfs:SmartFox;
-		public static function getSmartfoxInstance():SmartFox
+		//PlayerIO client
+		private var client:Client;
+		public function setClient(client:Client):void
 		{
-			if(sfs == null)
-				sfs = new SmartFox(true)
-					
-			return sfs;
+			this.client = client;
+		}
+		public function getClient():Client
+		{
+			return this.client;
+		}
+		
+		//PlayerIO connection
+		private var connection:Connection
+		public function setConnection(connection:Connection):void
+		{
+			this.connection = connection;
+			dispatchEvent(new Event(EVENT_CONNECTION_UPDATE));
+		}
+		public function getConnection():Connection
+		{
+			return this.connection;
 		}
 		
 		//Current State
@@ -49,7 +65,7 @@ package model
 		public function setCurrentState(currentState:String):void
 		{
 			this.currentState = currentState;
-			var stateUpdateEvent:StateUpdateEvent = new StateUpdateEvent(StateUpdateEvent.EVENT_STATE_UPDATE, MainModel.STATE_LOGIN);
+			var stateUpdateEvent:StateUpdateEvent = new StateUpdateEvent(StateUpdateEvent.EVENT_STATE_UPDATE, currentState);
 			dispatchEvent(stateUpdateEvent);
 			trace("DISPATCH EVENT : STATE_UPDATE_EVENT");
 		}
