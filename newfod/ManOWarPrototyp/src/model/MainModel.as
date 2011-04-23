@@ -1,18 +1,22 @@
 package model
 {
-	import Views.abstracts.BasicView;
+	import view.abstracts.BasicView;
 	
 	import event.StateUpdateEvent;
 	
 	import flash.display.DisplayObject;
+	import flash.display.MovieClip;
 	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
+	import flash.geom.Point;
 	
 	import playerio.Client;
 	import playerio.Connection;
 	import playerio.PlayerIO;
+	
+	import view.ships.BasicShip;
 	
 	public class MainModel extends EventDispatcher
 	{
@@ -97,6 +101,7 @@ package model
 			return this.stage;
 		}
 	
+		
 		//Username
 		private var username:String;
 		public function setUsername(username:String):void
@@ -104,8 +109,36 @@ package model
 			this.username = username;
 		}
 		public function getUsername():String
+
 		{
 			return this.username;
+		}
+		
+		//Avatar 
+		private var avatar:BasicShip;
+		public function setAvatar(avatar:BasicShip):void
+		{
+			this.avatar = avatar;
+		}
+		public function getAvatar():BasicShip
+		{
+			return this.avatar;
+		}
+
+		//Ennemys
+		private var ennemy:MovieClip;
+		//EnnemyList Singleton !!! ON JOIN NEW GAME ROOM, MUST RESET THE ENNEMY LIST
+		private var ennemyList:Array;
+		public function getEnnemyList():Array
+		{
+			if(ennemyList == null)
+				ennemyList = new Array();
+			
+			return ennemyList;
+		}
+		public function addEnnemy(ennemy:MovieClip):void
+		{
+			//getEnnemyList()[ennemy.
 		}
 	}
 

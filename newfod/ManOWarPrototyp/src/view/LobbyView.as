@@ -1,9 +1,9 @@
-package Views
+package view
 {
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
-	import Views.interfaces.IView;
-	import Views.abstracts.BasicView;
+	import view.interfaces.IView;
+	import view.abstracts.BasicView;
 
 	public class LobbyView extends BasicView implements IView
 	{

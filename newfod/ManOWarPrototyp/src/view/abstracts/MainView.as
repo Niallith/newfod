@@ -1,6 +1,6 @@
-package Views.abstracts
+package view.abstracts
 {
-	import Views.LoginView;
+	import view.LoginView;
 	
 	import control.Controller;
 	
