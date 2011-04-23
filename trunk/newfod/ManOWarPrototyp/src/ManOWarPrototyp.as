@@ -1,6 +1,6 @@
 package
 {
-	import Views.abstracts.MainView;
+	import view.abstracts.MainView;
 	
 	import control.Controller;
 	

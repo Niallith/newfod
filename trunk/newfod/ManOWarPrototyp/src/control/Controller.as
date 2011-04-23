@@ -1,16 +1,18 @@
 package control
 {
-	import Views.LobbyView;
-	import Views.LoginView;
-	import Views.abstracts.BasicView;
-	import Views.abstracts.MainGameView;
-	import Views.abstracts.MainView;
+	import view.LobbyView;
+	import view.LoginView;
+	import view.abstracts.BasicView;
+	import view.abstracts.MainGameView;
+	import view.abstracts.MainView;
 	
 	import flash.display.MovieClip;
 	
 	import model.MainModel;
 	
 	import playerio.Connection;
+	
+	import view.ships.BasicShip;
 
 	public class Controller
 	{
@@ -27,7 +29,25 @@ package control
 			return controller;
 		}
 		
+		//Player
+		//Username change
+		public function setUsername(username:String):void
+		{
+			mainModel.setUsername(username);
+		}
 		
+		//Avatar
+		public function setAvatar(avatar:BasicShip):void
+		{
+			trace("SETTING AVATAR : "+avatar);
+			mainModel.setAvatar(avatar);
+		}
+		
+		//Ennemy
+		public function addEnnemy(ennemy:MovieClip):void
+		{
+			
+		}
 		//VIEWS
 		//Remove current view
 		public function removeCurrentView():void

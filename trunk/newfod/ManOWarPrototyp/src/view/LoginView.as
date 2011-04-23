@@ -1,13 +1,16 @@
-package Views
+package view
 {
-	import Views.abstracts.BasicView;
-	import Views.interfaces.IView;
+	import view.abstracts.BasicView;
+	import view.interfaces.IView;
+	import view.ships.BasicShip;
+	import view.ships.Trident;
 	
 	import control.Controller;
 	
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.utils.getDefinitionByName;
 	
 	import flashx.textLayout.elements.OverflowPolicy;
 	
@@ -16,6 +19,7 @@ package Views
 	import playerio.Client;
 	import playerio.PlayerIO;
 	import playerio.PlayerIOError;
+
 
 	public class LoginView extends BasicView implements IView
 	{
@@ -28,6 +32,7 @@ package Views
 		}
 		public function init():void
 		{
+			
 			trace("LoginView Created");
 			setGraphics();
 			setListeners();
@@ -35,12 +40,15 @@ package Views
 		
 		private function goLogin(e:MouseEvent):void
 		{
+			//Update du username
+			controller.setUsername(loginComponent.txt_username.text);
+			
 			//Connection au serveur playerIO
 			PlayerIO.connect(
 				mainModel.getStage(),				//Referance to stage
 				"manowar-1wphsniuf0mnoyalg2b4a",	//Game id 
 				"public",							//Connection id, default is public
-				loginComponent.txt_username.text,						//Username
+				loginComponent.txt_username.text,	//Username
 				"",									//User auth. Can be left blank if authentication is disabled on connection
 				null,								//Current PartnerPay partner.
 				handleConnect,						//Function executed on successful connect
@@ -55,13 +63,24 @@ package Views
 			//Set developmentserver (Comment out to connect to your server online)
 			client.multiplayer.developmentServer = "localhost:8184";
 			
+			/**
+			 * ON RENTRE DIRECTEMENT DANS LA GAME, A CHANGER BIEN EVIDEMMENT APRES
+			 * */
+			//Create avatar and set his position
+			var test:String = "Trident";
+			var TheClass:Class = getDefinitionByName(test) as Class;
+			
+			var avatar:BasicShip = new Trident();
+			controller.setAvatar(avatar);
+			
+		
 			//Create join the Lobby
 			client.multiplayer.createJoinRoom(
-			"",									//Room id. If set to null a random roomid is used
+			"Lobby",							//Room id. If set to null a random roomid is used
 			"Lobby",							//The game type started on the server
 			true,								//Should the room be visible in the lobby?
 			{},									//Room data. This data is returned to lobby list. Variabels can be modifed on the server
-			{},									//User join data
+			{x:mainModel.getAvatar().getPositionX(), y:mainModel.getAvatar().getPositionY(), username:mainModel.getUsername()},									//User join data
 			handleJoin,							//Function executed on successful joining of the room
 			handleError							//Function executed if we got a join error
 			);
@@ -85,6 +104,8 @@ package Views
 			loginComponent.bt_connect.addEventListener(MouseEvent.CLICK, goLogin);
 			//Ecouteur removedFromStage
 			this.addEventListener(Event.REMOVED_FROM_STAGE, onRemoveFromStage);
+			
+			
 			
 		}
 		private function onRemoveFromStage(e:Event):void

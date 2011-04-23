@@ -1,4 +1,4 @@
-package Views.abstracts
+package view.abstracts
 {
 
 	import control.Controller;
@@ -21,9 +21,7 @@ package Views.abstracts
 
 		//private var 
 		public function BasicView()
-		{
-			
-		}
+		{}
 		protected function handleError(error:PlayerIOError):void{
 			trace("got",error);
 		}
